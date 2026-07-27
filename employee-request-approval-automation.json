@@ -1,0 +1,836 @@
+{
+  "name": "Employee Request Approval Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9191a0fa-5da8-41f0-9d2b-92265a99f8a1",
+              "name": "Emp_Name",
+              "value": "={{ $json.body.employee_name }}",
+              "type": "string"
+            },
+            {
+              "id": "685deeee-18a3-4445-8c9f-4bec085403c8",
+              "name": "Emp_Email",
+              "value": "={{ $json.body.employee_email }}",
+              "type": "string"
+            },
+            {
+              "id": "2f5a94ef-7669-4e52-bf77-c30b7a6ca6e7",
+              "name": "Manager_Email",
+              "value": "={{ $json.body.manager_email }}",
+              "type": "string"
+            },
+            {
+              "id": "47533042-a8a3-4e5e-908a-9ee1395e9912",
+              "name": "Request_Type",
+              "value": "={{ $json.body.request_type }}",
+              "type": "string"
+            },
+            {
+              "id": "2a0cd78f-14f3-473c-9df2-430795107811",
+              "name": "Request_Details",
+              "value": "={{ $json.body.details }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "2b9d6470-6bbb-4647-8471-5d0eda2df21a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3bbda889-41af-4e38-94a2-5afd2e1bad12",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -32,
+        0
+      ],
+      "id": "a43dbd1c-cc8b-4980-b2f6-ae8d491e3b54",
+      "name": "\t Receive New Request",
+      "webhookId": "3bbda889-41af-4e38-94a2-5afd2e1bad12"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Task 4: Automation Requirements Checklist",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Employee_Name": "={{ $json.Emp_Name }}",
+            "Employee_Email": "={{ $json.Emp_Email }}",
+            "Manager_Email": "={{ $json.Manager_Email }}",
+            "Request_type": "={{ $json.Request_Type }}",
+            "Request_Details": "={{ $json.Request_Details }}",
+            "Status": "Pending",
+            " Date /Time": "={{ $now.format('yyyy-MM-dd HH:mm') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Employee_Name",
+              "displayName": "Employee_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Employee_Email",
+              "displayName": "Employee_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Manager_Email",
+              "displayName": "Manager_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Request_type",
+              "displayName": "Request_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Request_Details",
+              "displayName": "Request_Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " Date /Time",
+              "displayName": " Date /Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "36d66001-4f61-4fc9-a833-572c7fea1026",
+      "name": "Log Request as Pending",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CRED_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Task 4: Automation Requirements Checklist",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        0
+      ],
+      "id": "d25e103f-30aa-410a-b2d5-66d0763a8e59",
+      "name": "Fetch Logged Row (with row number)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CRED_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "your-email@example.com",
+        "subject": "=New request from {{ $('Edit Fields').item.json.Emp_Name }}",
+        "message": "=<div style=\"font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 24px;\">\n  <div style=\"background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0;\">\n    <!-- Header -->\n    <div style=\"background-color: #0f6e56; padding: 20px 24px;\">\n      <h2 style=\"color: #ffffff; margin: 0; font-size: 20px;\">New Approval Request</h2>\n    </div>\n    <!-- Body -->\n    <div style=\"padding: 24px;\">\n      <p style=\"font-size: 15px; color: #333333; margin-top: 0;\">\n        Hi, a new request has been submitted and is waiting for your decision.\n      </p>\n      <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n        <tr>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777; width: 40%;\">Employee Name</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333; font-weight: bold;\">{{ $json.Employee_Name }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777;\">Employee Email</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333;\">{{ $json.Employee_Email }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777;\">Request Type</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333;\">{{ $json.Request_type }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777; vertical-align: top;\">Details</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333;\">{{ $json.Request_Details }}</td>\n        </tr>\n      </table>\n      <p style=\"font-size: 15px; color: #333333;\">\n        Please choose an action below:\n      </p>\n      <!-- Buttons -->\n      <table style=\"width: 100%; margin-top: 16px;\">\n        <tr>\n          <td style=\"text-align: center; padding: 0 8px;\">\n            <a href=\"https://YOUR_N8N_INSTANCE.app.n8n.cloud/webhook/64acb212-8cc9-4f96-8802-4eb526574a5d?id={{ $json.row_number }}&name={{ encodeURIComponent($json.Employee_Name) }}&email={{ encodeURIComponent($json.Employee_Email) }}&type={{ encodeURIComponent($json.Request_type) }}&details={{ encodeURIComponent($json.Request_Details) }}\"\n               style=\"display: inline-block; background-color: #1D9E75; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold;\">\n              ✅ Approve\n            </a>\n          </td>\n          <td style=\"text-align: center; padding: 0 8px;\">\n            <a href=\"https://YOUR_N8N_INSTANCE.app.n8n.cloud/webhook/b872e6a3-870c-473b-921b-75fca9c082fe?id={{ $json.row_number }}&name={{ encodeURIComponent($json.Employee_Name) }}&email={{ encodeURIComponent($json.Employee_Email) }}&type={{ encodeURIComponent($json.Request_type) }}&details={{ encodeURIComponent($json.Request_Details) }}\"\n               style=\"display: inline-block; background-color: #E24B4A; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold;\">\n              ❌ Reject\n            </a>\n          </td>\n        </tr>\n      </table>\n      <p style=\"font-size: 12px; color: #999999; margin-top: 28px;\">\n        This is an automated notification from the internal approval workflow. Clicking a button will instantly update the request status.\n      </p>\n    </div>\n  </div>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        0
+      ],
+      "id": "c75c4446-9528-48a4-ba44-cde52747ba60",
+      "name": "Email to Manager for Decision",
+      "webhookId": "9820e1d0-82ad-4138-9a6f-4f76a447294b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_GMAIL_CRED_ID",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "64acb212-8cc9-4f96-8802-4eb526574a5d",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -32,
+        224
+      ],
+      "id": "c1f78ba2-3941-4088-b3ba-ca7b6bbbd88b",
+      "name": "Manager Clicks Approve",
+      "webhookId": "64acb212-8cc9-4f96-8802-4eb526574a5d"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Task 4: Automation Requirements Checklist",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.query.id }}",
+            "Status": "Approved"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Employee_Name",
+              "displayName": "Employee_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Employee_Email",
+              "displayName": "Employee_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Manager_Email",
+              "displayName": "Manager_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Request_type",
+              "displayName": "Request_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Request_Details",
+              "displayName": "Request_Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " Date /Time",
+              "displayName": " Date /Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        224
+      ],
+      "id": "5c7fe8ee-e60e-4897-9bb4-fd6aae578f4a",
+      "name": "Mark Status as Approved",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CRED_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "b872e6a3-870c-473b-921b-75fca9c082fe",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -32,
+        416
+      ],
+      "id": "646ce348-d702-4e48-b0ca-05947b50d2a0",
+      "name": "Manager Clicks Reject",
+      "webhookId": "b872e6a3-870c-473b-921b-75fca9c082fe"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Task 4: Automation Requirements Checklist",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Rejected",
+            "row_number": "={{ $json.query.id }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Employee_Name",
+              "displayName": "Employee_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Employee_Email",
+              "displayName": "Employee_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Manager_Email",
+              "displayName": "Manager_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Request_type",
+              "displayName": "Request_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Request_Details",
+              "displayName": "Request_Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " Date /Time",
+              "displayName": " Date /Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        416
+      ],
+      "id": "b4f8fd16-b3a3-4fc5-af43-53c19863dde5",
+      "name": "Mark Status as Rejected",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CRED_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "your-email@example.com",
+        "subject": "=Your  {{ $json.Request_type }}  request has been Rejected",
+        "message": "=<div style=\"font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 24px;\">\n  <div style=\"background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0;\">\n    <!-- Header -->\n    <div style=\"background-color: #E24B4A; padding: 20px 24px;\">\n      <h2 style=\"color: #ffffff; margin: 0; font-size: 20px;\">❌ Request Rejected</h2>\n    </div>\n    <!-- Body -->\n    <div style=\"padding: 24px;\">\n      <p style=\"font-size: 15px; color: #333333; margin-top: 0;\">\n        Hi {{ $json.Request_type }},\n      </p>\n      <p style=\"font-size: 15px; color: #333333;\">\n        Your request has been <b style=\"color: #E24B4A;\">rejected</b> by your manager.\n      </p>\n      <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n        <tr>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777; width: 40%;\">Request Type</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333; font-weight: bold;\">{{ $json.Request_type }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777; vertical-align: top;\">Details</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333;\">{{ $json.Request.Details }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777;\">Status</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #E24B4A; font-weight: bold;\">Rejected</td>\n        </tr>\n      </table>\n      <p style=\"font-size: 14px; color: #333333;\">\n        If you have questions about this decision, please reach out to your manager directly.\n      </p>\n      <p style=\"font-size: 12px; color: #999999; margin-top: 28px;\">\n        This is an automated notification from the internal approval workflow.\n      </p>\n    </div>\n  </div>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        832
+      ],
+      "id": "694c68fa-d657-4b07-9772-6e83271a44ce",
+      "name": "Email Employee — Rejected",
+      "webhookId": "d6927c45-0dd6-47c6-881c-9fa691152832",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_GMAIL_CRED_ID",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Request Approved. The employee has been notified.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        320
+      ],
+      "id": "d291aef7-82a6-436b-b0d2-d0cf7278d13d",
+      "name": "Confirm to Manager (Success Page)"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": []
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Task 4: Automation Requirements Checklist",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit#gid=0"
+        },
+        "event": "rowUpdate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        736
+      ],
+      "id": "0ebfb842-b1b4-4002-a710-d844bb4d94c3",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_TRIGGER_CRED_ID",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e1bc2bbe-180e-44f2-9b77-ff9b70c8e8c7",
+              "leftValue": "={{ $json.Approved }}",
+              "rightValue": "Approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        192,
+        736
+      ],
+      "id": "94170119-5071-42e0-a58b-28ca899a08db",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "your-email@example.com",
+        "subject": "=Your {{ $json.Request_type }} request has been Approved ",
+        "message": "=<div style=\"font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 24px;\">\n  <div style=\"background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0;\">\n    <!-- Header -->\n    <div style=\"background-color: #1D9E75; padding: 20px 24px;\">\n      <h2 style=\"color: #ffffff; margin: 0; font-size: 20px;\">✅ Request Approved</h2>\n    </div>\n    <!-- Body -->\n    <div style=\"padding: 24px;\">\n      <p style=\"font-size: 15px; color: #333333; margin-top: 0;\">\n        Hi {{ $json.Request_type }},\n      </p>\n      <p style=\"font-size: 15px; color: #333333;\">\n        Good news — your request has been <b style=\"color: #1D9E75;\">approved</b> by your manager.\n      </p>\n      <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n        <tr>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777; width: 40%;\">Request Type</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333; font-weight: bold;\">{{ $json.Request_type }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777; vertical-align: top;\">Details</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #333333;\">{{ $json.Request_Details }}</td>\n        </tr>\n        <tr style=\"border-top: 1px solid #eeeeee;\">\n          <td style=\"padding: 8px 0; font-size: 14px; color: #777777;\">Status</td>\n          <td style=\"padding: 8px 0; font-size: 14px; color: #1D9E75; font-weight: bold;\">Approved</td>\n        </tr>\n      </table>\n      <p style=\"font-size: 12px; color: #999999; margin-top: 28px;\">\n        This is an automated notification from the internal approval workflow. No further action is needed on your part.\n      </p>\n    </div>\n  </div>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        640
+      ],
+      "id": "ab5572c7-657f-46af-8632-fa11aa56972f",
+      "name": "Email Employee — Approved",
+      "webhookId": "d5ec6261-6dcd-4ad5-a5c2-95c2a9239124",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_GMAIL_CRED_ID",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Google Sheets Trigger": [
+      {
+        "json": {
+          "row_number": 4,
+          "Employee_Name": "Fatima Raza",
+          "Employee_Email": "fatima.raza@example.com",
+          "Manager_Email": "manager@example.com",
+          "Request_type": "Work From Home",
+          "Request_Details": "Requesting WFH on Aug 3rd - internet installation appointment",
+          "Approved": "Approved",
+          " Date /Time": 46229.74097222222
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Log Request as Pending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "\t Receive New Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Request as Pending": {
+      "main": [
+        [
+          {
+            "node": "Fetch Logged Row (with row number)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Logged Row (with row number)": {
+      "main": [
+        [
+          {
+            "node": "Email to Manager for Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email to Manager for Decision": {
+      "main": [
+        []
+      ]
+    },
+    "Manager Clicks Approve": {
+      "main": [
+        [
+          {
+            "node": "Mark Status as Approved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Status as Approved": {
+      "main": [
+        [
+          {
+            "node": "Confirm to Manager (Success Page)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manager Clicks Reject": {
+      "main": [
+        [
+          {
+            "node": "Mark Status as Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Status as Rejected": {
+      "main": [
+        [
+          {
+            "node": "Confirm to Manager (Success Page)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Employee — Rejected": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Email Employee — Approved",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email Employee — Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ba7aa7cb-318d-4fcf-a126-e3f5ffaa1d96",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_INSTANCE_ID"
+  },
+  "nodeGroups": [],
+  "id": "0iLLCF2DFHBmFs8W",
+  "tags": []
+}
